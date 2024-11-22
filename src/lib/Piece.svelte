@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { hashStringToBigInt, pcg64 } from '$lib/pcg';
 	let {
 		piece,
 		index
@@ -10,8 +11,12 @@
 		index: number;
 	} = $props();
 
-	let rotateDeg = ((index * 11) % 7) - 3;
-	let fontWeight = (((index * 13) % 17) / 17) * 300 + 400;
+	const seed : bigint = piece.author ? hashStringToBigInt(piece.author) : BigInt(index);
+	const pcg = pcg64(seed);
+
+	let rotateDeg = pcg.getRandomFloat(-3, 3);
+	let fontWeight = pcg.getRandomInt(400, 700);
+	let hueDeg = pcg.getRandomInt(0, 360);
 </script>
 
 <div
@@ -19,6 +24,13 @@
 	style="
     transform: rotate({rotateDeg}deg);
     font-weight: {fontWeight};
+	background-image: linear-gradient(
+		to bottom,
+		lch(85.993% 20.394 {hueDeg}) calc(1em - 1px),
+		lch(72.985% 32.272 {hueDeg}) calc(1em - 1px),
+		lch(72.985% 32.272 {hueDeg}) 1em,
+		lch(85.993% 20.394 {hueDeg}) 1em
+	);
 "
 >
 	<span class="message">
@@ -33,7 +45,7 @@
 
 <style>
 	.muted {
-		opacity: .5;
+		opacity: 0.5;
 		font-weight: 400 !important;
 	}
 	.paper {
@@ -41,15 +53,7 @@
 		padding: 2rem 1rem;
 		margin: 1rem;
 		font-size: 2rem;
-		background-color: #fffbeb;
 		box-shadow: -0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.3);
-		background-image: linear-gradient(
-			to bottom,
-			#fff calc(1em - 1px),
-			#ccc calc(1em - 1px),
-			#ccc 1em,
-			#fff 1em
-		);
 		background-position: 0% 1em;
 		background-size: 100% 1em;
 		background-repeat: repeat-y;

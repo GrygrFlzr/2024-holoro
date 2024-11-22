@@ -50,6 +50,5 @@ export const load: PageLoad = async ({ fetch, params }) => {
 			return { author, message };
 		})
 		.slice(1);
-	console.log(rows);
 	return { rows, bgColor, textColor };
 };
