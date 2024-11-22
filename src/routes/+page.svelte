@@ -1,63 +1,49 @@
-<script lang="ts">
-	import type { PageData } from './$types';
-
-	let { data }: { data: PageData } = $props();
-</script>
-
-<div class="page">
-	{#each data.rows as piece, index}
-		<div
-			class="paper"
-			style="
-            transform: rotate({((index * 11) % 7) - 3}deg);
-            font-weight: {(((index * 13) % 17) / 17) * 300 + 400};
-        "
-		>
-			<span class="message">{piece.message}</span>
-			<span class="author">{piece.author}</span>
-		</div>
-	{/each}
+<div class="container">
+    <section style="transform: rotate(3deg)">
+        <h1>Letters to Kureiji Ollie</h1>
+        <h2><a href="/ollie/2024-anniversary/en">English Letter</a></h2>
+        <h2><a href="/ollie/2024-anniversary/id">Indonesian Letter</a></h2>
+    </section>
+    <section style="transform: rotate(-2deg)">
+        <h1>Letters to Anya Melfissa</h1>
+        <h2><a href="/anya/2024-anniversary/en">English Letter</a></h2>
+        <h2><a href="/anya/2024-anniversary/id">Indonesian Letter</a></h2>
+    </section>
+    <section style="transform: rotate(1deg)">
+        <h1>Letters to Pavolia Reine</h1>
+        <h2><a href="/reine/2024-anniversary/en">English Letter</a></h2>
+        <h2><a href="/reine/2024-anniversary/id">Indonesian Letter</a></h2>
+    </section>
 </div>
 
 <style>
-	:root {
-		background: #78350f;
-		color: #09090b;
-	}
-	.page {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-around;
-	}
-	.author {
-		position: absolute;
-		bottom: 0.25rem;
-		right: 1rem;
-		font-size: 1rem;
-	}
-	.message {
-		text-wrap: nowrap;
-		font-size: 2rem;
-	}
-	.paper {
-		position: relative;
-		padding: 2rem 1rem;
-		margin: 1rem;
-		font-size: 2rem;
-		background-color: #fffbeb;
-		box-shadow: -0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.3);
-		background-image: linear-gradient(
-			to bottom,
-			#fff calc(1em - 1px),
-			#ccc calc(1em - 1px),
-			#ccc 1em,
-			#fff 1em
-		);
-		background-position: 0% 1em;
-		background-size: 100% 1em;
-		background-repeat: repeat-y;
-		font-family: 'Caveat', cursive;
-		font-optical-sizing: auto;
-		font-style: normal;
-	}
+    .container {
+        background-color: #18181b;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    }
+    section {
+        background-color: #fafafa;
+        width: 30em;
+        max-width: 80vw;
+        margin: 1rem;
+        padding: 1rem;
+    }
+    h1, h2 {
+        font-weight: 400;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    a {
+        text-decoration: underline;
+        color: #0ea5e9;
+    }
+    a:hover {
+        color: #38bdf8;
+    }
 </style>

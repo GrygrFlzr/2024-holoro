@@ -12,3 +12,12 @@
 </svelte:head>
 
 {@render children()}
+
+<style>
+	:root, :global(html), :global(body) {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		min-height: 100vh;
+	}
+</style>
