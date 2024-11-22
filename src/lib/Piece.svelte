@@ -31,6 +31,7 @@
 		lch(72.985% 32.272 {hueDeg}) 1em,
 		lch(85.993% 20.394 {hueDeg}) 1em
 	);
+	color: lch(30.731% 74.271 {hueDeg});
 "
 >
 	<span class="message">

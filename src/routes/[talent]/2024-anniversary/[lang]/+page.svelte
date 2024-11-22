@@ -7,7 +7,6 @@
 
 <div class="page" style="
 	background-color: {data.bgColor};
-	color: {data.textColor};
 ">
 	{#each data.rows as piece, index}
 		<Piece {piece} {index} />
