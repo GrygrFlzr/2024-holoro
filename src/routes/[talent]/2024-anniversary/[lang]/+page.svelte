@@ -8,7 +8,7 @@
 	const rng = pcg64(numericSeed);
 	const messageCount = data.messages.length;
 	const firstStickerPosition = rng.getRandomInt(0, messageCount - 1);
-	const authorExtractor = /\/(?:ollie|anya|reine)_(.*).png/;
+	const authorExtractor = /\/(?:ollie|anya|reine)_(.*)\./;
 </script>
 
 <div class="page" style="
