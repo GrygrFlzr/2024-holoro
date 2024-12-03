@@ -25,5 +25,16 @@ export function pcg64(seed: bigint) {
 		return (rng() / 0xffffffff) * (max - min) + min;
 	}
 
-	return { rng, getRandomInt, getRandomFloat };
+	function shuffleArray<T>(arr: T[]): T[] {
+		const arrCopy = [...arr];
+		const toRet: T[] = [];
+		while (arrCopy.length > 0) {
+			const index = getRandomInt(0, arrCopy.length - 1);
+			toRet.push(arrCopy[index]);
+			arrCopy.splice(index, 1);
+		}
+		return toRet;
+	}
+
+	return { rng, getRandomInt, getRandomFloat, shuffleArray };
 }

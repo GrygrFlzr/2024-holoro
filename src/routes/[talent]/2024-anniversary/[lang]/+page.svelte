@@ -6,23 +6,41 @@
 	let { data }: { data: PageData } = $props();
 	const numericSeed = hashStringToBigInt(data.seed);
 	const rng = pcg64(numericSeed);
-	const messageCount = data.messages.length;
-	const firstStickerPosition = rng.getRandomInt(0, messageCount - 1);
-	const authorExtractor = /\/(?:ollie|anya|reine)_(.+?)?\./;
+	const stickers = rng.shuffleArray(data.stickers);
+	// svelte-ignore non_reactive_update
+	let stickerIndex = 0;
+
+	function isSentenceStart(str: string|undefined) {
+		let msg = (str || '').trimStart();
+		return msg.startsWith('!') || msg.startsWith('.');
+	}
+	function isSentenceEnd(str: string|undefined) {
+		let msg = (str || '').trimEnd();
+		return msg.endsWith('!') || msg.endsWith('.');
+	}
 </script>
 
-<div class="page" style="
-	background-color: {data.bgColor};
-">
+<div class="page" style="background-color: {data.bgColor};">
 	{#each data.messages as piece, index}
-		{#if index == firstStickerPosition && data.stickers.length > 0}
-			<div class="sticker">
+		{#if isSentenceStart(piece.message) && stickerIndex < stickers.length}
+			<div class="sticker" style="transform: rotate({rng.getRandomFloat(-3, 3)}deg)">
 				<!-- svelte-ignore a11y_missing_attribute -->
-				<img src={data.stickers[0]} />
-				<span data-name={authorExtractor.exec(data.stickers[0])![1]} class="author">{authorExtractor.exec(data.stickers[0])![1]}</span>
+				<img src={stickers[stickerIndex].url} />
+				<span data-name={stickers[stickerIndex].author} class="author">
+					{stickers[stickerIndex++].author}
+				</span>
 			</div>
 		{/if}
 		<Piece {piece} {index} />
+		{#if isSentenceEnd(piece.message) && stickerIndex < stickers.length}
+			<div class="sticker" style="transform: rotate({rng.getRandomFloat(-3, 3)}deg)">
+				<!-- svelte-ignore a11y_missing_attribute -->
+				<img src={stickers[stickerIndex].url} />
+				<span data-name={stickers[stickerIndex].author} class="author">
+					{stickers[stickerIndex++].author}
+				</span>
+			</div>
+		{/if}
 	{/each}
 </div>
 
@@ -33,6 +51,7 @@
 		justify-content: space-around;
 		align-content: flex-start;
 		min-height: 100vh;
+		padding: 2rem 0;
 	}
 	.sticker {
 		position: relative;
@@ -44,11 +63,21 @@
 		position: absolute;
 		bottom: 0;
 		right: 0;
-		font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		font-family:
+			system-ui,
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			Roboto,
+			Oxygen,
+			Ubuntu,
+			Cantarell,
+			'Open Sans',
+			'Helvetica Neue',
+			sans-serif;
 		font-weight: 500;
 		color: white;
 		-webkit-text-stroke: 4px white;
-		transform: rotate(-5deg);
 	}
 	.sticker .author:after {
 		content: attr(data-name);
