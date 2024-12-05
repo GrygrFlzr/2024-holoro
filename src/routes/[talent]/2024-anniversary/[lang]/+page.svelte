@@ -18,6 +18,8 @@
 		let msg = (str || '').trimEnd();
 		return msg.endsWith('!') || msg.endsWith('.');
 	}
+
+	const isMerakyat = data.seed === 'Pavolia Reine';
 </script>
 
 <div class="page" style="background-color: {data.bgColor};">
@@ -31,7 +33,7 @@
 				</span>
 			</div>
 		{/if}
-		<Piece {piece} {index} />
+		<Piece {piece} {index} decorated={isMerakyat} />
 		{#if isSentenceEnd(piece.message) && stickerIndex < stickers.length}
 			<div class="sticker" style="transform: rotate({rng.getRandomFloat(-3, 3)}deg)">
 				<!-- svelte-ignore a11y_missing_attribute -->
@@ -52,6 +54,11 @@
 		</div>
 	{/each}
 </div>
+{#if isMerakyat}
+	<div class="special-thanks" style="background-color: {data.bgColor};">
+		<span>Special thanks to birb_guk for the letter decorations!</span>
+	</div>
+{/if}
 
 <style>
 	.page {
@@ -60,6 +67,14 @@
 		justify-content: space-around;
 		align-content: flex-start;
 		min-height: 100vh;
+		padding: 2rem 0;
+	}
+	.special-thanks {
+		text-align: center;
+		display: block;
+		font-family: 'Caveat', cursive;
+		font-size: 2rem;
+		color: white;
 		padding: 2rem 0;
 	}
 	.sticker {

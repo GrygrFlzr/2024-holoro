@@ -2,16 +2,18 @@
 	import { hashStringToBigInt, pcg64 } from '$lib/pcg';
 	let {
 		piece,
-		index
+		index,
+		decorated = false
 	}: {
 		piece: {
 			author: string | undefined;
 			message: string | undefined;
 		};
 		index: number;
+		decorated?: boolean;
 	} = $props();
 
-	const seed : bigint = piece.author ? hashStringToBigInt(piece.author) : BigInt(index);
+	const seed: bigint = piece.author ? hashStringToBigInt(piece.author) : BigInt(index);
 	const pcg = pcg64(seed);
 
 	let rotateDeg = pcg.getRandomFloat(-3, 3);
@@ -20,7 +22,7 @@
 </script>
 
 <div
-	class="paper"
+	class="paper {decorated ? `decor${pcg.getRandomInt(1, 5)}` : ''}"
 	style="
     transform: rotate({rotateDeg}deg);
     font-weight: {fontWeight};
@@ -61,6 +63,34 @@
 		font-family: 'Caveat', cursive;
 		font-optical-sizing: auto;
 		font-style: normal;
+	}
+	.paper:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 80px;
+		width: 80px;
+		transform: translate(30px, -40px);
+		background-size: cover;
+	}
+	.paper.decor1:after {
+		background-image: url('/decoration/merakyat01.png');
+	}
+	.paper.decor2:after {
+		background-image: url('/decoration/merakyat02.png');
+	}
+	.paper.decor3:after {
+		background-image: url('/decoration/merakyat03.png');
+	}
+	.paper.decor4:after {
+		background-image: url('/decoration/merakyat04.png');
+	}
+	.paper.decor5:after {
+		background-image: url('/decoration/merakyat05.png');
+		left: 0;
+		right: initial;
+		transform: translate(-30px, -40px);
 	}
 
 	.author {
