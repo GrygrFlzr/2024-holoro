@@ -10,11 +10,11 @@
 	// svelte-ignore non_reactive_update
 	let stickerIndex = 0;
 
-	function isSentenceStart(str: string|undefined) {
+	function isSentenceStart(str: string | undefined) {
 		let msg = (str || '').trimStart();
 		return msg.startsWith('!') || msg.startsWith('.');
 	}
-	function isSentenceEnd(str: string|undefined) {
+	function isSentenceEnd(str: string | undefined) {
 		let msg = (str || '').trimEnd();
 		return msg.endsWith('!') || msg.endsWith('.');
 	}
@@ -41,6 +41,15 @@
 				</span>
 			</div>
 		{/if}
+	{/each}
+	{#each stickers.slice(stickerIndex, stickers.length) as sticker}
+		<div class="sticker" style="transform: rotate({rng.getRandomFloat(-3, 3)}deg)">
+			<!-- svelte-ignore a11y_missing_attribute -->
+			<img src={stickers[stickerIndex].url} />
+			<span data-name={stickers[stickerIndex].author} class="author">
+				{stickers[stickerIndex++].author}
+			</span>
+		</div>
 	{/each}
 </div>
 
